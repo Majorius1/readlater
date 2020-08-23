@@ -277,6 +277,7 @@
     <Content Include="Views\Bookmarks\Create.cshtml" />
     <Content Include="Views\Bookmarks\Index.cshtml" />
     <Content Include="Views\Bookmarks\CategoriesDropdown.cshtml" />
+    <Content Include="Views\Bookmarks\Edit.cshtml" />
     <Content Include="Views\Bookmarks\Details.cshtml" />
   </ItemGroup>
   <ItemGroup>

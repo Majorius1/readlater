@@ -67,5 +67,30 @@ namespace MVC.Controllers {
 
 			return View(category);
 		}
+
+		public ActionResult Edit(int? id) {
+			if (id == null) {
+				return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+			}
+
+			Bookmark bookmark = _bookmarkService.GetBookmark(id.Value);
+			if (bookmark == null) {
+				return HttpNotFound();
+			}
+
+			InitializaCategoriesSelectList();
+			return View(bookmark);
+		}
+
+		[HttpPost]
+		[ValidateAntiForgeryToken]
+		public ActionResult Edit(Bookmark bookmark) {
+			if (ModelState.IsValid) {
+				_bookmarkService.UpdateBookmark(bookmark);
+				return RedirectToAction("Index");
+			}
+
+			return View(bookmark);
+		}
 	}
 }
