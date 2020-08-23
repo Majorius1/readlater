@@ -1,25 +1,41 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Data.Entity;
-using System.Linq;
+using System.Configuration;
 using System.Security.Claims;
 using System.Threading.Tasks;
-using System.Web;
+using MailKit.Net.Smtp;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin;
 using Microsoft.Owin.Security;
+using MimeKit;
 using MVC.Models;
 
-namespace MVC
-{
-    public class EmailService : IIdentityMessageService
+namespace MVC {
+	public class EmailService : IIdentityMessageService
     {
-        public Task SendAsync(IdentityMessage message)
+		private const string GOOGLE_SMTP = "smtp.gmail.com";
+		private const int GOOGLE_SMTP_PORT = 587;
+		private const string GOOGLE_USERNAME = "bogdanshur1@gmail.com";
+
+		public async Task SendAsync(IdentityMessage message)
         {
-            // Plug in your email service here to send an email.
-            return Task.FromResult(0);
+			var emailMessage = new MimeMessage();
+
+			emailMessage.From.Add(new MailboxAddress("Site administration", "read-later.com"));
+			emailMessage.To.Add(new MailboxAddress("", message.Destination));
+			emailMessage.Subject = message.Subject;
+			emailMessage.Body = new TextPart(MimeKit.Text.TextFormat.Html) {
+				Text = message.Body
+			};
+
+			using (var client = new SmtpClient()) {
+				await client.ConnectAsync(GOOGLE_SMTP, GOOGLE_SMTP_PORT, false);
+				await client.AuthenticateAsync(GOOGLE_USERNAME, ConfigurationManager.AppSettings["GoogleAccountPassword"]);
+				await client.SendAsync(emailMessage);
+
+				await client.DisconnectAsync(true);
+			}
         }
     }
 
