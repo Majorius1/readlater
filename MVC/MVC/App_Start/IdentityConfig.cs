@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Configuration;
+using System.Diagnostics;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using MailKit.Net.Smtp;
@@ -10,6 +11,9 @@ using Microsoft.Owin;
 using Microsoft.Owin.Security;
 using MimeKit;
 using MVC.Models;
+using Twilio;
+using Twilio.Rest.Api.V2010.Account;
+using Twilio.Types;
 
 namespace MVC {
 	public class EmailService : IIdentityMessageService
@@ -43,10 +47,23 @@ namespace MVC {
     {
         public Task SendAsync(IdentityMessage message)
         {
-            // Plug in your SMS service here to send a text message.
-            return Task.FromResult(0);
-        }
-    }
+			var accountSid = ConfigurationManager.AppSettings["SMSAccountIdentification"];
+			var authToken = ConfigurationManager.AppSettings["SMSAccountPassword"];
+			var fromNumber = ConfigurationManager.AppSettings["SMSAccountFrom"];
+
+			TwilioClient.Init(accountSid, authToken);
+
+			MessageResource result = MessageResource.Create(new PhoneNumber(message.Destination),
+				from: new PhoneNumber(fromNumber),
+				body: message.Body
+			);
+
+			//Status is one of Queued, Sending, Sent, Failed or null if the number is not valid
+			Trace.TraceInformation(result.Status.ToString());
+			//Twilio doesn't currently have an async API, so return success.
+			return Task.FromResult(0);
+		}
+	}
 
     // Configure the application user manager used in this application. UserManager is defined in ASP.NET Identity and is used by the application.
     public class ApplicationUserManager : UserManager<ApplicationUser>
