@@ -92,5 +92,26 @@ namespace MVC.Controllers {
 
 			return View(bookmark);
 		}
+
+		public ActionResult Delete(int? id) {
+			if (id == null) {
+				return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+			}
+
+			Bookmark bookmark = _bookmarkService.GetBookmark(id.Value);
+			if (bookmark == null) {
+				return HttpNotFound();
+			}
+
+			return View(bookmark);
+		}
+
+		[HttpPost, ActionName("Delete")]
+		[ValidateAntiForgeryToken]
+		public ActionResult DeleteConfirmed(int id) {
+			Bookmark bookmark = _bookmarkService.GetBookmark(id);
+			_bookmarkService.DeleteBookmark(bookmark);
+			return RedirectToAction("Index");
+		}
 	}
 }
