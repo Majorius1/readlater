@@ -1,0 +1,49 @@
+﻿@model ReadLater.Entities.Bookmark
+
+@{
+	ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+	<h4>Bookmark</h4>
+	<hr />
+	<dl class="dl-horizontal">
+		<dt>
+			@Html.DisplayName("Url")
+		</dt>
+		<dd>
+			@Html.DisplayFor(model => model.URL)
+		</dd>
+
+		@if (!string.IsNullOrEmpty(Model.ShortDescription)) {
+			<dt>
+				@Html.DisplayName("Short description")
+			</dt>
+			<dd>
+				@Html.DisplayFor(model => model.ShortDescription)
+			</dd>
+		}
+
+		@if (Model.Category != null) {
+			<dt>
+				@Html.DisplayName("Category name")
+			</dt>
+			<dd>
+				@Html.DisplayFor(model => model.Category.Name)
+			</dd>
+		}
+
+		<dt>
+			@Html.DisplayName("Create date")
+		</dt>
+		<dd>
+			@Html.DisplayFor(model => model.CreateDate)
+		</dd>
+	</dl>
+</div>
+<p>
+	@Html.ActionLink("Edit", "Edit", new { id = Model.ID }) |
+	@Html.ActionLink("Back to List", "Index")
+</p>

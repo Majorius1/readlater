@@ -19,6 +19,20 @@ namespace MVC.Controllers {
 			return View(model);
 		}
 
+		public ActionResult Details(int? id) {
+			if (id == null) {
+				return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+			}
+
+			Bookmark bookmark = _bookmarkService.GetBookmark(id.Value);
+			if (bookmark == null) {
+				return HttpNotFound();
+			}
+
+			return View(bookmark);
+
+		}
+
 		private void InitializaCategoriesSelectList() {
 			var categories = _categoryService.GetCategories();
 			var categoriesSelectList = new SelectList(categories, "ID", "Name");
