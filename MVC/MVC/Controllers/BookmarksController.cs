@@ -14,6 +14,11 @@ namespace MVC.Controllers {
 			_bookmarkService = bookmarkService;
 		}
 
+		public ActionResult Index() {
+			List<Bookmark> model = _bookmarkService.GetBookmarks(category: null);
+			return View(model);
+		}
+
 		private void InitializaCategoriesSelectList() {
 			var categories = _categoryService.GetCategories();
 			var categoriesSelectList = new SelectList(categories, "ID", "Name");
