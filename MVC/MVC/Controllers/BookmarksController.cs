@@ -5,6 +5,7 @@ using System.Net;
 using System.Web.Mvc;
 
 namespace MVC.Controllers {
+	[Authorize]
 	public class BookmarksController : Controller {
 		private readonly ICategoryService _categoryService;
 		private readonly IBookmarkService _bookmarkService;
@@ -15,7 +16,7 @@ namespace MVC.Controllers {
 		}
 
 		public ActionResult Index() {
-			List<Bookmark> model = _bookmarkService.GetBookmarks(category: null);
+			List<Bookmark> model = _bookmarkService.GetBookmarks();
 			return View(model);
 		}
 
