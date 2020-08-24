@@ -1,14 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Web;
+using Microsoft.AspNet.Identity;
 using ReadLater.Entities;
 using ReadLater.Repository;
 
-namespace ReadLater.Services
-{
-    public class BookmarkService : IBookmarkService
+namespace ReadLater.Services {
+	public class BookmarkService : IBookmarkService
     {
         protected IUnitOfWork _unitOfWork;
 
@@ -20,6 +19,7 @@ namespace ReadLater.Services
         public Bookmark CreateBookmark(Bookmark bookmark)
         {
             bookmark.CreateDate = DateTime.Now;
+			bookmark.AuthorId = HttpContext.Current.User.Identity.GetUserId();
             _unitOfWork.Repository<Bookmark>().Insert(bookmark);
             _unitOfWork.Save();
             return bookmark;
@@ -31,24 +31,31 @@ namespace ReadLater.Services
 		}
 
 		public Bookmark GetBookmark(int id) {
-			return _unitOfWork.Repository<Bookmark>().FindById(id);
+			var userId = HttpContext.Current.User.Identity.GetUserId();
+			return _unitOfWork.Repository<Bookmark>().Query()
+				.Filter(bookmark => bookmark.AuthorId.Equals(userId) && bookmark.ID == id)
+				.Get().FirstOrDefault();
 		}
 
-		public List<Bookmark> GetBookmarks(string category)
+		public List<Bookmark> GetBookmarks(string category = null)
         {
-            if (string.IsNullOrEmpty(category))
+			var bookmarksRepositoryQuery = _unitOfWork.Repository<Bookmark>().Query();
+			var userId = HttpContext.Current.User.Identity.GetUserId();
+			if (string.IsNullOrEmpty(category))
             {
-                return _unitOfWork.Repository<Bookmark>().Query()
-                                                        .OrderBy(l => l.OrderByDescending(b => b.CreateDate))
-                                                        .Get()                                                        
-                                                        .ToList();
+                return bookmarksRepositoryQuery
+					.Filter(bookmark => bookmark.AuthorId.Equals(userId))
+					.OrderBy(l => l.OrderByDescending(b => b.CreateDate))
+                    .Get()
+                    .ToList();
             }
             else
             {
-                return _unitOfWork.Repository<Bookmark>().Query()
-                                                            .Filter(b => b.Category != null && b.Category.Name == category)                                        
-                                                            .Get()
-                                                            .ToList();
+                return bookmarksRepositoryQuery
+					.Filter(bookmark => bookmark.AuthorId.Equals(userId) 
+						&& bookmark.Category != null && bookmark.Category.Name == category)
+                    .Get()
+                    .ToList();
             }
         }
 

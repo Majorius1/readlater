@@ -1,9 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using ReadLater.Entities;
-namespace ReadLater.Services
-{
-    public interface ICategoryService
+namespace ReadLater.Services {
+	public interface ICategoryService
     {
         Category CreateCategory(Category category);
         List<Category> GetCategories();
