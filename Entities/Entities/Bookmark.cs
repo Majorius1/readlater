@@ -20,5 +20,8 @@ namespace ReadLater.Entities {
         public virtual Category Category { get; set; }
 		
         public DateTime CreateDate { get; set; }
+
+		public string AuthorId { get; set; }
+		public virtual ApplicationUser Author { get; set; }
     }
 }
