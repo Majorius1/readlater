@@ -23,5 +23,7 @@ namespace ReadLater.Entities {
 
 		public string AuthorId { get; set; }
 		public virtual ApplicationUser Author { get; set; }
+
+		public int UsageCount { get; set; }
     }
 }

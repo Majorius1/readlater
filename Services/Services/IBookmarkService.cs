@@ -9,5 +9,6 @@ namespace ReadLater.Services {
 		void DeleteBookmark(Bookmark bookmark);
         List<Bookmark> GetBookmarks(string category = null);
 		Bookmark GetBookmark(int id);
+		void IncrementBookmarkUsage(Bookmark bookmark);
     }
 }

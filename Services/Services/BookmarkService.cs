@@ -59,6 +59,11 @@ namespace ReadLater.Services {
             }
         }
 
+		public void IncrementBookmarkUsage(Bookmark bookmark) {
+			bookmark.UsageCount++;
+			UpdateBookmark(bookmark);
+		}
+
 		public void UpdateBookmark(Bookmark bookmark) {
 			var bookmarkRepository = _unitOfWork.Repository<Bookmark>();
 			bookmarkRepository.Update(bookmark);

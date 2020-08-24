@@ -70,6 +70,10 @@
     <Compile Include="Migrations\202008240932185_MakeEntitiesUserSpecific.Designer.cs">
       <DependentUpon>202008240932185_MakeEntitiesUserSpecific.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202008242223147_AddBookmarkUsageCounter.cs" />
+    <Compile Include="Migrations\202008242223147_AddBookmarkUsageCounter.Designer.cs">
+      <DependentUpon>202008242223147_AddBookmarkUsageCounter.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ReadLaterDataContext.cs" />
@@ -98,6 +102,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202008240932185_MakeEntitiesUserSpecific.resx">
       <DependentUpon>202008240932185_MakeEntitiesUserSpecific.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202008242223147_AddBookmarkUsageCounter.resx">
+      <DependentUpon>202008242223147_AddBookmarkUsageCounter.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
