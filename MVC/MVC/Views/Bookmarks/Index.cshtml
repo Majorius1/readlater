@@ -20,7 +20,9 @@
 	@foreach (var item in Model) {
 		<tr>
 			<td>
-				@Html.DisplayFor(modelItem => item.URL)
+				@using (Html.BeginForm(new { action = "IncrementBookmarkUsage", controller = "Bookmarks", id = item.ID })) {
+					<span class="bookmark-link">@Html.DisplayFor(modelItem => item.URL)</span>
+				}
 			</td>
 			<td>
 				@Html.ActionLink("Edit", "Edit", new { id = item.ID }) |
@@ -28,6 +30,10 @@
 				@Html.ActionLink("Delete", "Delete", new { id = item.ID })
 			</td>
 		</tr>
-	}
+				}
 
 </table>
+
+@section scripts {
+	<script src="~/Scripts/bookmarks.js"></script>
+}

@@ -14,7 +14,9 @@
 			@Html.DisplayName("Url")
 		</dt>
 		<dd>
-			@Html.DisplayFor(model => model.URL)
+			@using (Html.BeginForm(new { action = "IncrementBookmarkUsage", controller = "Bookmarks", id = Model.ID })) {
+				<span class="bookmark-link">@Html.DisplayFor(model => model.URL)</span>
+			}
 		</dd>
 
 		@if (!string.IsNullOrEmpty(Model.ShortDescription)) {
@@ -47,3 +49,7 @@
 	@Html.ActionLink("Edit", "Edit", new { id = Model.ID }) |
 	@Html.ActionLink("Back to List", "Index")
 </p>
+
+@section scripts {
+	<script src="~/Scripts/bookmarks.js"></script>
+}

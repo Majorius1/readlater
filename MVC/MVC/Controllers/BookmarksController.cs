@@ -114,5 +114,17 @@ namespace MVC.Controllers {
 			_bookmarkService.DeleteBookmark(bookmark);
 			return RedirectToAction("Index");
 		}
+
+		[HttpPost]
+		[AllowAnonymous]
+		public ActionResult IncrementBookmarkUsage(int id) {
+			var bookmark = _bookmarkService.GetBookmark(id);
+			if (bookmark == null) {
+				return HttpNotFound();
+			}
+
+			_bookmarkService.IncrementBookmarkUsage(bookmark);
+			return Redirect(bookmark.URL);
+		}
 	}
 }
