@@ -26,3 +26,7 @@ textarea {
 .create-category-form {
 	display: none;
 }
+
+.glyphicon-copy {
+	margin-left: 10px;
+}

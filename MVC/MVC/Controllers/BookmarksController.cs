@@ -115,7 +115,7 @@ namespace MVC.Controllers {
 			return RedirectToAction("Index");
 		}
 
-		[HttpPost]
+		[HttpGet]
 		[AllowAnonymous]
 		public ActionResult IncrementBookmarkUsage(int id) {
 			var bookmark = _bookmarkService.GetBookmark(id);

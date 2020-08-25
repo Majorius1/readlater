@@ -14,9 +14,15 @@
 			@Html.DisplayName("Url")
 		</dt>
 		<dd>
-			@using (Html.BeginForm(new { action = "IncrementBookmarkUsage", controller = "Bookmarks", id = Model.ID })) {
-				<span class="bookmark-link">@Html.DisplayFor(model => model.URL)</span>
-			}
+			@using (Html.BeginForm("IncrementBookmarkUsage", "Bookmarks", new { id = Model.ID }, FormMethod.Get)) {
+					<span class="bookmark-link">@Html.DisplayFor(modelItem => Model.URL)</span>
+					<span class="glyphicon glyphicon-copy" data-toggle="tooltip" data-placement="right"
+						  title="Copy link to share with friends">
+						@Html.Hidden("IncrementBookmarkUsageLink", Url.Action("IncrementBookmarkUsage", "Bookmarks", new {
+							id = Model.ID
+						}, Request.Url.Scheme))
+					</span>
+				}
 		</dd>
 
 		@if (!string.IsNullOrEmpty(Model.ShortDescription)) {

@@ -20,8 +20,14 @@
 	@foreach (var item in Model) {
 		<tr>
 			<td>
-				@using (Html.BeginForm(new { action = "IncrementBookmarkUsage", controller = "Bookmarks", id = item.ID })) {
+				@using (Html.BeginForm("IncrementBookmarkUsage", "Bookmarks", new { id = item.ID }, FormMethod.Get)) {
 					<span class="bookmark-link">@Html.DisplayFor(modelItem => item.URL)</span>
+					<span class="glyphicon glyphicon-copy" data-toggle="tooltip" data-placement="right"
+						  title="Copy link to share with friends">
+						@Html.Hidden("IncrementBookmarkUsageLink", Url.Action("IncrementBookmarkUsage", "Bookmarks", new {
+							id = item.ID
+						}, Request.Url.Scheme))
+					</span>
 				}
 			</td>
 			<td>
