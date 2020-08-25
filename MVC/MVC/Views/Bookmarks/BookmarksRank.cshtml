@@ -1,0 +1,41 @@
+﻿@model IEnumerable<ReadLater.Entities.Bookmark>
+
+@{
+	ViewBag.Title = "Bookmarks rank";
+}
+
+<h2>Bookmarks rank</h2>
+<table class="table">
+	<tr>
+		<th>
+			@Html.DisplayNameFor(model => model.URL)
+		</th>
+		<th>@Html.DisplayNameFor(model => model.Category.Name)</th>
+		<th>@Html.DisplayNameFor(model => model.Author.UserName)</th>
+		<th>@Html.DisplayNameFor(model => model.UsageCount)</th>
+	</tr>
+
+	@foreach (var item in Model) {
+		<tr>
+			<td>
+				@using (Html.BeginForm("IncrementBookmarkUsage", "Bookmarks", new { id = item.ID }, FormMethod.Get)) {
+					<span class="bookmark-link">@Html.DisplayFor(modelItem => item.URL)</span>
+					<span class="glyphicon glyphicon-copy" data-toggle="tooltip" data-placement="right"
+						  title="Copy link to share with friends">
+						@Html.Hidden("IncrementBookmarkUsageLink", Url.Action("IncrementBookmarkUsage", "Bookmarks", new {
+							id = item.ID
+						}, Request.Url.Scheme))
+					</span>
+				}
+			</td>
+			<td>@Html.DisplayFor(model => item.Category.Name)</td>
+			<td>@Html.DisplayFor(model => item.Author.UserName)</td>
+			<td>@Html.DisplayFor(model => item.UsageCount)</td>
+		</tr>
+	}
+
+</table>
+
+@section scripts {
+	<script src="~/Scripts/bookmarks.js"></script>
+}

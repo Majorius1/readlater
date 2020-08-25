@@ -306,6 +306,7 @@
     <Content Include="Views\Bookmarks\Edit.cshtml" />
     <Content Include="Views\Bookmarks\Details.cshtml" />
     <Content Include="Views\Bookmarks\Delete.cshtml" />
+    <Content Include="Views\Bookmarks\BookmarksRank.cshtml" />
     <None Include="Web.secrets.config" />
   </ItemGroup>
   <ItemGroup>

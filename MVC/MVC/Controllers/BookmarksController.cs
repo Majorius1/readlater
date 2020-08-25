@@ -126,5 +126,12 @@ namespace MVC.Controllers {
 			_bookmarkService.IncrementBookmarkUsage(bookmark);
 			return Redirect(bookmark.URL);
 		}
+
+		[HttpGet]
+		[AllowAnonymous]
+		public ActionResult BookmarksRank() {
+			List<Bookmark> model = _bookmarkService.GetAllUsersBookmarks();
+			return View(model);
+		}
 	}
 }

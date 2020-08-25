@@ -30,10 +30,16 @@ namespace ReadLater.Services {
 			_unitOfWork.Save();
 		}
 
-		public Bookmark GetBookmark(int id) {
-			var userId = HttpContext.Current.User.Identity.GetUserId();
+		public List<Bookmark> GetAllUsersBookmarks() {
 			return _unitOfWork.Repository<Bookmark>().Query()
-				.Filter(bookmark => bookmark.AuthorId.Equals(userId) && bookmark.ID == id)
+					.OrderBy(l => l.OrderByDescending(b => b.UsageCount))
+					.Get()
+					.ToList();
+		}
+
+		public Bookmark GetBookmark(int id) {
+			return _unitOfWork.Repository<Bookmark>().Query()
+				.Filter(bookmark => bookmark.ID == id)
 				.Get().FirstOrDefault();
 		}
 
